@@ -68,18 +68,41 @@
                     <span class="author-block">ReLER Lab, CCAI, Zhejiang University<br>In Submission</span>
                   </div>
 
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                         <!-- Arxiv PDF link -->
+                      <span class="link-block">
+                        <a href="static/images/fig_1.jpg" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>
 
                 <!-- ArXiv abstract Link -->
                 <span class="link-block">
-                  <a href="https://arxiv.org" target="_blank"
+                  <a href="https://arxiv.org/abs/2410.12332" target="_blank"
                   class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                     <i class="ai ai-arxiv"></i>
                   </span>
-                  <span>arXiv (Coming soon)</span>
+                  <span>arXiv</span>
                 </a>
               </span>
 
+                  <!-- Github link -->
+                  <span class="link-block">
+                    <a href="https://github.com/YOUR REPO HERE" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+            
                <!-- Dataset Link -->
                 <span class="link-block">
                   <a href="https://drive.google.com/drive/folders/1EWEiECUcJn4YD91z_n8FfHS1z5VKFi16?usp=drive_link" target="_blank"
@@ -110,7 +133,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            While multimodal large language models (MLLMs) have demonstrated extraordinary vision-language understanding capabilities and shown potential to severe as general-purpose assistants, their abilities to solve multi-image instance-level visual-language problems warrant further exploration. To assess such unproven abilities of MLLMs, this paper suggests a practical open-ended visual grounding task termed multi-context visual grounding. The new task aims to localize instances of interest within multiple images according to a flexible text input. To facilitate this research, we meticulously construct a new dataset MC-Bench and benchmark the open-ended visual grounding capability of MLLM-based methods. MC-Bench features 2,000 high-quality manually annotated samples consisting of instance-level labeled image pairs and corresponding text prompts indicating the instances of interest within or absent from the images. The text prompts are roughly categorized into three types (i.e., referring, comparison and reasoning) and cover over 10 practical skills (e.g., multi-hop reasoning, common sense reasoning, multi-view reasoning, temporal understanding, etc.). Our evaluation on MC-Bench reveals a significant performance gap between human and existing MLLM-based approaches, especially for the end-to-end models. We hope MC-Bench can encourage the research community to delve deeper to discover and enhance these untapped potentials of MLLMs in instance-level tasks particularly in multi-image scenarios.
+            While multimodal large language models (MLLMs) have demonstrated extraordinary vision-language understanding capabilities, their abilities to solve instance-level visual-language problems beyond a single image warrant further exploration. To assess these unproven abilities of MLLMs, this paper proposes a new visual grounding task called multi-context visual grounding, which aims to localize instances of interest across multiple images based on open-ended text prompts. In order to facilitate this research, we construct a new dataset MC-Bench that features 2K high-quality and manually annotated samples. Each sample consists of an instance-level labeled image pair and a corresponding text prompt that indicates the target instances in the images. These text prompts are highly open-ended and grouped into three distinct styles, covering 20 practical skills. We benchmark over 20 state-of-the-art MLLMs and foundation models with potential multi-context visual grounding capabilities, as well as a simple yet effective stepwise baseline and a finetuned baseline by multi-context instruction tuning. Our evaluation reveals a non-trivial performance gap between existing MLLMs and humans, along with some interesting observations that suggest potential future directions. We hope MC-Bench and our empirical findings can encourage the research community to further explore and enhance the untapped potentials of MLLMs in instance-level tasks, particularly in multi-image contexts.
           </p>
         </div>
       </div>
@@ -145,16 +168,20 @@
 <!-- End image carousel
 
 
-
-
-
-<!-- BibTex citation -->
-<!--   <section class="section" id="BibTeX">
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
       <h2 class="title">BibTeX</h2>
-      <pre><code>BibTex Code Here</code></pre>
+      <pre><code>
+        @article{xu2024mc,
+          title={MC-Bench: A Benchmark for Multi-Context Visual Grounding in the Era of MLLMs},
+          author={Xu, Yunqiu and Zhu, Linchao and Yang, Yi},
+          journal={arXiv preprint arXiv:2410.12332},
+          year={2024}
+        }
+      </code></pre>
     </div>
-</section> -->
+</section>
 <!--End BibTex citation -->
 
 
