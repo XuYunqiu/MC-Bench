@@ -1,48 +1,133 @@
-# Academic Project Page Template
-This is an academic paper project page template.
+# MC-Bench
+
+[![Website](https://img.shields.io/badge/Project-Website-F9D371)](https://xuyunqiu.github.io/MC-Bench/)
+[![paper](https://img.shields.io/badge/arXiv-Paper-blue.svg)](https://arxiv.org/abs/2410.12332)
+[![Dataset](https://img.shields.io/badge/Dataset-Access-<F9D371)](https://drive.google.com/drive/folders/1EWEiECUcJn4YD91z_n8FfHS1z5VKFi16?usp=drive_link)
+
+This repo contains data and evaluation code for MC-Bench, a new benchmark for multi-context visual grounding.
 
 
-Example project pages built using this template are:
-- https://vision.huji.ac.il/spectral_detuning/
-- https://vision.huji.ac.il/podd/
-- https://dreamix-video-editing.github.io
-- https://vision.huji.ac.il/conffusion/
-- https://vision.huji.ac.il/3d_ads/
-- https://vision.huji.ac.il/ssrl_ad/
-- https://vision.huji.ac.il/deepsim/
+> **Abstract:** *While multimodal large language models (MLLMs) have demonstrated extraordinary vision-language understanding capabilities, their abilities to solve instance-level visual-language problems beyond a single image warrant further exploration. To assess these unproven abilities of MLLMs, this paper proposes a new visual grounding task called multi-context visual grounding, which aims to localize instances of interest across multiple images based on open-ended text prompts. In order to facilitate this research, we construct a new dataset MC-Bench that features 2K high-quality and manually annotated samples. Each sample consists of an instance-level labeled image pair and a corresponding text prompt that indicates the target instances in the images. These text prompts are highly open-ended and grouped into three distinct styles, covering 20 practical skills. We benchmark over 20 state-of-the-art MLLMs and foundation models with potential multi-context visual grounding capabilities, as well as a simple yet effective stepwise baseline and a finetuned baseline by multi-context instruction tuning. Our evaluation reveals a non-trivial performance gap between existing MLLMs and humans, along with some interesting observations that suggest potential future directions. We hope MC-Bench and our empirical findings can encourage the research community to further explore and enhance the untapped potentials of MLLMs in instance-level tasks, particularly in multi-image contexts.*
+
+
+## Setup
+```
+# install COCO API
+pip install 'git+https://github.com/cocodataset/cocoapi.git#subdirectory=PythonAPI'
+
+# install SciPy
+pip install scipy
+
+# download MC-Bench evaltion code
+git clone https://github.com/XuYunqiu/MC-Bench.git
+```
+
+
+## Data Preparation
+### MC-Bench Dataset Download
+* Download our dataset from [Google Drive](https://drive.google.com/drive/folders/1EWEiECUcJn4YD91z_n8FfHS1z5VKFi16?usp=drive_link) | [Baidu Pan](https://pan.baidu.com/s/1_e_rmUVgRy13ZVITlAOuXw?pwd=mc02)
+* Unzip the `MC-Bench_images.zip` file
+* The MC-Bench dataset directory should to have the following directory structure: 
+
+```
+MC-Bench/
+├── mc-bench_v0.2_val.json/
+└── mc-bench_images/
+    ├── COCO/
+    ├── D3/
+    ├── winogavil_images/
+    ├── BLINK_val_multiview/
+    ├── Mantis-Eval_val/
+    └── ...
+```
 
 
 
-## Start using the template
-To start using the template click on `Use this Template`.
+### Annotation Format
+The annotation format of MC-Bench is similar to COCO. The annotations are stored using JSON. The MC-Bench API can be used to access and manipulate annotations. The JSON file has the following format:
+```
+{
+  "info"		:info,
+  "images"		:[image],
+  "annotations"		:[annotation],
+  "descriptions"	:[description],
+  "categories"		:categories,
+}
 
-The template uses html for controlling the content and css for controlling the style. 
-To edit the websites contents edit the `index.html` file. It contains different HTML "building blocks", use whichever ones you need and comment out the rest.  
+description{
+  "id"			:int,
+  "images_id"		:[int],
+  "text"		:str,
+  "positive_sample"	:bool,
+  "text_style"		:str,
+}
 
-**IMPORTANT!** Make sure to replace the `favicon.ico` under `static/images/` with one of your own, otherwise your favicon is going to be a dreambooth image of me.
+image{
+  "id"			:int,
+  "text_id"		:int,
+  "inter_img_id"	:int,
+  "file_name"		:str,
+  "height"		:int,
+  "width"		:int,
+}
 
-## Components
-- Teaser video
-- Images Carousel
-- Youtube embedding
-- Video Carousel
-- PDF Poster
-- Bibtex citation
+annotation{
+  "id"			:int,
+  "image_id"		:int,
+  "text_id"		:int,
+  "catgory_id"		:int,
+  "area"		:int,
+  "bbox"		:[x,y,w,h],
+  "iscrowd"		:0 or 1,
+}
+```
+Note: box coordinates are floats measured from the top left image corner (and are 0-indexed). 
 
-## Tips:
-- The `index.html` file contains comments instructing you what to replace, you should follow these comments.
-- The `meta` tags in the `index.html` file are used to provide metadata about your paper 
-(e.g. helping search engine index the website, showing a preview image when sharing the website, etc.)
-- The resolution of images and videos can usually be around 1920-2048, there rarely a need for better resolution that take longer to load. 
-- All the images and videos you use should be compressed to allow for fast loading of the website (and thus better indexing by search engines). For images, you can use [TinyPNG](https://tinypng.com), for videos you can need to find the tradeoff between size and quality.
-- When using large video files (larger than 10MB), it's better to use youtube for hosting the video as serving the video from the website can take time.
-- Using a tracker can help you analyze the traffic and see where users came from. [statcounter](https://statcounter.com) is a free, easy to use tracker that takes under 5 minutes to set up. 
-- This project page can also be made into a github pages website.
-- Replace the favicon to one of your choosing (the default one is of the Hebrew University). 
-- Suggestions, improvements and comments are welcome, simply open an issue or contact me. You can find my contact information at [https://pages.cs.huji.ac.il/eliahu-horwitz/](https://pages.cs.huji.ac.il/eliahu-horwitz/)
 
-## Acknowledgments
-Parts of this project page were adopted from the [Nerfies](https://nerfies.github.io/) page.
+### Results Format
+The results format is similar to the ground-truth annotation format
+```
+[{
+  "image_id"		:int,
+  "category_id"		:int,
+  "bbox"		:[x,y,w,h],
+  "score"		:float,
+}]
+```
 
-## Website License
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+
+
+## Evaluation in Command Line
+
+To calculate the metrics used in MC-Bench, use
+```
+python eval_mc_bench.py \
+  --gt_json_path ../MC-Bench/MC-Bench_coco_format.json.yaml \
+  --dt_json_path /path/to/results_file \
+  --eval_type 'all'
+```
+You can set `--eval_type` to `instance`, `image` or `all` for evaluation over instance-level, image-level and all metrics.
+
+
+
+## TODO
+- [ ] Refactor evalutaion code based on COCO API
+- [ ] Support evaluation of more than 2 images
+- [ ] MC-Bench v0.5
+
+
+
+## Citation
+If you find our data or code useful in your research, please use the following BibTeX entry.
+```BibTeX
+@article{xu2024mc,
+  title={MC-Bench: A Benchmark for Multi-Context Visual Grounding in the Era of MLLMs},
+  author={Xu, Yunqiu and Zhu, Linchao and Yang, Yi},
+  journal={arXiv preprint arXiv:2410.12332},
+  year={2024}
+}
+```
+
+
+## Contact
+If you have any questions, please drop me an email: imyunqiuxu@gmail.com
